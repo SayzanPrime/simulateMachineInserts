@@ -20,15 +20,16 @@ def insert_to_es():
     f = open('./data/shifts.json', 'r')
     data = json.loads(f.read())
 
-    for row in data:
-        dateDebut = datetime.strptime(row['dateDebut'], '%Y-%m-%d %H:%M:%S.%f')
-        dateFin = datetime.strptime(row['dateFin'], '%Y-%m-%d %H:%M:%S.%f')
+    if data != []:
+        for row in data:
+            dateDebut = datetime.strptime(row['dateDebut'], '%Y-%m-%d %H:%M:%S.%f')
+            dateFin = datetime.strptime(row['dateFin'], '%Y-%m-%d %H:%M:%S.%f')
 
-        if dateDebut < current_date < dateFin:
-            doc = {
-                'shiftId': row['idShift'],
-                'codeArticle': row['codeArticle'],
-                'poids': row['poids'],
-                'timestamp': datetime.now()
-            }
-            es.index(index="acome", document=doc)
+            if dateDebut < current_date < dateFin:
+                doc = {
+                    'shiftId': row['idShift'],
+                    'codeArticle': row['codeArticle'],
+                    'poids': row['poids'],
+                    'timestamp': datetime.now()
+                }
+                es.index(index="acome", document=doc)
